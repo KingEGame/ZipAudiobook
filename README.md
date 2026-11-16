@@ -1,5 +1,8 @@
 # ZipBook — аудиокниги прямо из ZIP-архива
 
+[![Release](https://github.com/KingEGame/ZipAudiobook/actions/workflows/release.yml/badge.svg)](https://github.com/KingEGame/ZipAudiobook/actions/workflows/release.yml)
+[![Latest release](https://img.shields.io/github/v/release/KingEGame/ZipAudiobook)](https://github.com/KingEGame/ZipAudiobook/releases/latest)
+
 Android-приложение: открываешь ZIP с аудиокнигой, оно само разбирает порядок файлов,
 тома и главы, и играет. Без распаковки вручную, без переименования файлов.
 
