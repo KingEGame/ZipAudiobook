@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ZipBook mark: an open book (two pages + spine) in amber, with a white play
+  triangle over the spine standing in for "it plays", plus a small folded
+  corner on the right page as the ZIP-archive cue.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Left page -->
+    <path
+        android:pathData="M20,32 L53,24 L53,84 L20,76 Z"
+        android:fillColor="#F0C460" />
+
+    <!-- Right page -->
+    <path
+        android:pathData="M88,32 L55,24 L55,84 L88,76 Z"
+        android:fillColor="#F0C460" />
+
+    <!-- Folded corner on the right page: the ZIP-archive cue -->
+    <path
+        android:pathData="M88,32 L88,46 L76,38 Z"
+        android:fillColor="#1A1E2E"
+        android:fillAlpha="0.35" />
+
+    <!-- Spine -->
+    <path
+        android:pathData="M53,24 L55,24 L55,84 L53,84 Z"
+        android:fillColor="#C98F2B" />
+
+    <!-- Play triangle, centered over the spine -->
+    <path
+        android:pathData="M44,40 L44,68 L70,54 Z"
+        android:fillColor="#FFFFFF" />
+</vector>

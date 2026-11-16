@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZipBook — UI mockup</title>
+<style>
+  :root{
+    --bg:#0f1012; --surface:#17181c; --surface2:#1e2026; --elev:#24262e;
+    --text:#f2f3f5; --muted:#9a9ea8; --faint:#6b6f78;
+    --accent:#ffcc33; --accent2:#ff7a45; --line:#2a2c34;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#09090b;font-family:-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);
+       display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start;padding:28px}
+  .phone{width:330px;height:712px;background:var(--bg);border-radius:38px;overflow:hidden;position:relative;
+         box-shadow:0 0 0 10px #1a1b1e,0 20px 50px rgba(0,0,0,.6);display:flex;flex-direction:column}
+  .label{position:absolute;top:-22px;left:8px;font-size:12px;color:#777;letter-spacing:.3px}
+  .status{height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:12px;color:var(--muted);flex:none}
+  .scroll{flex:1;overflow-y:auto;padding:0 16px 96px}
+  .scroll::-webkit-scrollbar{display:none}
+  h1{font-size:22px;font-weight:800;letter-spacing:-.4px;margin:6px 2px 2px}
+  .sub{color:var(--muted);font-size:12px;margin:0 2px 14px}
+  .shelf-h{display:flex;justify-content:space-between;align-items:baseline;margin:18px 2px 10px}
+  .shelf-h b{font-size:16px;font-weight:700}
+  .shelf-h span{font-size:12px;color:var(--accent)}
+  /* continue card */
+  .cont{display:flex;gap:12px;background:var(--surface);border-radius:var(--radius);padding:12px;margin-bottom:10px}
+  .cont .cv{width:64px;height:64px;border-radius:12px;flex:none;display:flex;align-items:flex-end;justify-content:center;font-size:24px;padding-bottom:6px}
+  .cont .meta{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+  .cont .t{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cont .a{color:var(--muted);font-size:12px;margin:2px 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar{height:4px;background:var(--elev);border-radius:4px;overflow:hidden}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .cont .play{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#1a1200;flex:none;align-self:center;
+              display:flex;align-items:center;justify-content:center;font-size:18px}
+  /* horizontal rail */
+  .rail{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x mandatory}
+  .rail::-webkit-scrollbar{display:none}
+  .bk{width:116px;flex:none;scroll-snap-align:start}
+  .bk .cv{width:116px;height:116px;border-radius:14px;display:flex;align-items:flex-end;justify-content:center;font-size:30px;padding-bottom:8px;position:relative;overflow:hidden}
+  .bk .cv .ring{position:absolute;right:7px;bottom:7px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent)}
+  .bk .t{font-size:12.5px;font-weight:600;margin:7px 1px 1px;line-height:1.2;max-height:30px;overflow:hidden}
+  .bk .a{font-size:11px;color:var(--faint);margin:0 1px}
+  .badge{position:absolute;left:7px;top:7px;background:rgba(0,0,0,.6);font-size:9px;padding:2px 6px;border-radius:7px;color:var(--text)}
+  /* cover gradients */
+  .g1{background:linear-gradient(145deg,#3a2d6b,#7c4fd1)} .g2{background:linear-gradient(145deg,#6b2d3a,#d14f6b)}
+  .g3{background:linear-gradient(145deg,#2d5a6b,#4fb0d1)} .g4{background:linear-gradient(145deg,#6b5a2d,#d1a84f)}
+  .g5{background:linear-gradient(145deg,#2d6b47,#4fd18a)} .g6{background:linear-gradient(145deg,#4a2d6b,#a04fd1)}
+  /* bottom nav */
+  .nav{position:absolute;left:0;right:0;bottom:0;height:62px;background:rgba(20,21,24,.92);backdrop-filter:blur(12px);
+       border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding-bottom:4px}
+  .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--faint)}
+  .nav a.on{color:var(--text)} .nav a .ic{font-size:20px}
+  /* mini player */
+  .mini{position:absolute;left:8px;right:8px;bottom:70px;height:56px;background:var(--elev);border-radius:16px;
+        display:flex;align-items:center;gap:10px;padding:8px 10px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .mini .cv{width:40px;height:40px;border-radius:10px;flex:none}
+  .mini .t{flex:1;min-width:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mini .t small{display:block;color:var(--muted);font-weight:400;font-size:11px}
+  .mini .pp{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+  .mini .minibar{position:absolute;left:12px;right:12px;bottom:4px;height:2px;background:var(--line)}
+  .mini .minibar>i{display:block;height:100%;width:38%;background:var(--accent)}
+  /* PLAYER screen */
+  .pl{display:flex;flex-direction:column;height:100%;padding:8px 22px 20px}
+  .pl .top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px}
+  .pl .bigcv{width:230px;height:230px;border-radius:22px;margin:24px auto 22px;display:flex;align-items:flex-end;justify-content:center;font-size:64px;padding-bottom:16px;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+  .pl .pt{font-size:19px;font-weight:800;text-align:center;letter-spacing:-.3px}
+  .pl .pa{font-size:13px;color:var(--muted);text-align:center;margin:5px 0 4px}
+  .pl .chp{font-size:12px;color:var(--accent);text-align:center;margin-bottom:14px}
+  .scrub{height:4px;background:var(--elev);border-radius:4px;position:relative;margin:6px 0 4px}
+  .scrub>i{position:absolute;left:0;top:0;bottom:0;width:34%;background:var(--accent);border-radius:4px}
+  .scrub>b{position:absolute;left:34%;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:#fff}
+  .times{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin-bottom:14px}
+  .ctrls{display:flex;align-items:center;justify-content:space-between;margin:4px 6px 20px}
+  .ctrls .ic{font-size:26px;color:var(--text)} .ctrls .sk{font-size:14px;color:var(--muted);display:flex;flex-direction:column;align-items:center}
+  .ctrls .big{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-size:30px}
+  .tools{display:flex;justify-content:space-around;border-top:1px solid var(--line);padding-top:16px}
+  .tools a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--muted)}
+  .tools a .ic{font-size:19px}
+  .tools a .v{color:var(--accent);font-weight:700}
+  /* book detail */
+  .hero{display:flex;gap:14px;padding:8px 2px 16px}
+  .hero .cv{width:104px;height:104px;border-radius:16px;flex:none;display:flex;align-items:flex-end;justify-content:center;font-size:36px;padding-bottom:8px}
+  .hero .t{font-size:18px;font-weight:800;line-height:1.15}
+  .hero .a{color:var(--muted);font-size:13px;margin:6px 0}
+  .hero .pill{display:inline-block;font-size:11px;color:var(--faint);border:1px solid var(--line);border-radius:20px;padding:3px 9px;margin:3px 6px 0 0}
+  .cta{display:flex;gap:10px;margin:2px 0 18px}
+  .cta button{flex:1;height:46px;border:none;border-radius:14px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px}
+  .cta .prim{background:var(--accent);color:#1a1200} .cta .sec{background:var(--surface2);color:var(--text)}
+  .ch{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .ch .n{width:26px;color:var(--faint);font-size:13px;text-align:center;flex:none}
+  .ch .ct{flex:1;font-size:14px} .ch .ct small{display:block;color:var(--faint);font-size:11px}
+  .ch.cur .ct{color:var(--accent)} .ch .dur{font-size:11px;color:var(--faint)}
+  .ch.cur .n{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<!-- ===== 1. LIBRARY ===== -->
+<div class="phone">
+  <div class="label">① Библиотека</div>
+  <div class="status"><span>9:41</span><span>ZipBook</span><span>100%</span></div>
+  <div class="scroll">
+    <h1>Моя библиотека</h1>
+    <p class="sub">14 книг · 3 серии</p>
+
+    <div class="shelf-h"><b>Продолжить</b><span>всё</span></div>
+    <div class="cont">
+      <div class="cv g1">📖</div>
+      <div class="meta">
+        <div class="t">Задача трёх тел</div>
+        <div class="a">Лю Цысинь · гл. 7 из 24</div>
+        <div class="bar"><i style="width:31%"></i></div>
+      </div>
+      <div class="play">▶</div>
+    </div>
+    <div class="cont">
+      <div class="cv g3">📖</div>
+      <div class="meta">
+        <div class="t">Дюна</div>
+        <div class="a">Фрэнк Герберт · гл. 15 из 40</div>
+        <div class="bar"><i style="width:62%"></i></div>
+      </div>
+      <div class="play">▶</div>
+    </div>
+
+    <div class="shelf-h"><b>Серии</b><span>всё</span></div>
+    <div class="rail">
+      <div class="bk"><div class="cv g6">📚<div class="badge">6 томов</div></div><div class="t">Метро 2033</div><div class="a">Д. Глуховский</div></div>
+      <div class="bk"><div class="cv g2">📚<div class="badge">3 тома</div></div><div class="t">Основание</div><div class="a">А. Азимов</div></div>
+      <div class="bk"><div class="cv g4">📚<div class="badge">7 томов</div></div><div class="t">Гарри Поттер</div><div class="a">Дж. Роулинг</div></div>
+    </div>
+
+    <div class="shelf-h"><b>Все книги</b><span>А-Я</span></div>
+    <div class="rail">
+      <div class="bk"><div class="cv g5">📖<div class="ring">0%</div></div><div class="t">Солярис</div><div class="a">С. Лем</div></div>
+      <div class="bk"><div class="cv g1">📖<div class="ring">31%</div></div><div class="t">Задача трёх тел</div><div class="a">Лю Цысинь</div></div>
+      <div class="bk"><div class="cv g3">📖<div class="ring">62%</div></div><div class="t">Дюна</div><div class="a">Ф. Герберт</div></div>
+    </div>
+  </div>
+
+  <div class="mini">
+    <div class="cv g1"></div>
+    <div class="t">Задача трёх тел<small>Глава 7 · −12:04</small></div>
+    <div class="pp">⏸</div>
+    <div class="minibar"><i></i></div>
+  </div>
+  <div class="nav">
+    <a class="on"><span class="ic">📚</span>Библиотека</a>
+    <a><span class="ic">▶</span>Сейчас</a>
+    <a><span class="ic">＋</span>Импорт</a>
+    <a><span class="ic">⚙</span>Ещё</a>
+  </div>
+</div>
+
+<!-- ===== 2. PLAYER ===== -->
+<div class="phone">
+  <div class="label">② Плеер (Now Playing)</div>
+  <div class="pl">
+    <div class="top"><span>⌄</span><span>Задача трёх тел</span><span>⋯</span></div>
+    <div class="bigcv g1">📖</div>
+    <div class="pt">Задача трёх тел</div>
+    <div class="pa">Лю Цысинь · читает В. Князев</div>
+    <div class="chp">Глава 7 — «Безмолвная весна»</div>
+
+    <div class="scrub"><i></i><b></b></div>
+    <div class="times"><span>14:22</span><span>−12:04</span></div>
+
+    <div class="ctrls">
+      <div class="sk"><span class="ic">↺</span>10</div>
+      <div class="ic">⏮</div>
+      <div class="big">⏸</div>
+      <div class="ic">⏭</div>
+      <div class="sk"><span class="ic">↻</span>30</div>
+    </div>
+
+    <div class="tools">
+      <a><span class="ic">⏩</span><span class="v">1.0×</span></a>
+      <a><span class="ic">🌙</span>Таймер</a>
+      <a><span class="ic">≣</span>Главы</a>
+      <a><span class="ic">🔖</span>Закл.</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. BOOK DETAIL ===== -->
+<div class="phone">
+  <div class="label">③ Книга + главы</div>
+  <div class="status"><span>9:41</span><span>←</span><span>⋯</span></div>
+  <div class="scroll">
+    <div class="hero">
+      <div class="cv g1">📖</div>
+      <div>
+        <div class="t">Задача трёх тел</div>
+        <div class="a">Лю Цысинь</div>
+        <span class="pill">24 главы</span><span class="pill">18 ч 40 м</span><span class="pill">обложка: ID3</span>
+      </div>
+    </div>
+    <div class="cta">
+      <button class="prim">▶ Продолжить · гл. 7</button>
+      <button class="sec">↻ Сначала</button>
+    </div>
+
+    <div class="ch cur"><div class="n">7</div><div class="ct">Безмолвная весна<small>играет сейчас · −12:04</small></div><div class="dur">26:40</div></div>
+    <div class="ch"><div class="n">8</div><div class="ct">Стрелок и фермер</div><div class="dur">31:10</div></div>
+    <div class="ch"><div class="n">9</div><div class="ct">Три тела: Цинь Ши Хуан</div><div class="dur">28:55</div></div>
+    <div class="ch"><div class="n">10</div><div class="ct">Великий разрыв</div><div class="dur">24:02</div></div>
+    <div class="ch"><div class="n">11</div><div class="ct">Одинокий</div><div class="dur">22:48</div></div>
+    <div class="ch"><div class="n">12</div><div class="ct">Красный берег</div><div class="dur">33:17</div></div>
+  </div>
+  <div class="nav">
+    <a class="on"><span class="ic">📚</span>Библиотека</a>
+    <a><span class="ic">▶</span>Сейчас</a>
+    <a><span class="ic">＋</span>Импорт</a>
+    <a><span class="ic">⚙</span>Ещё</a>
+  </div>
+</div>
+
+</body>
+</html>
