@@ -14,7 +14,9 @@ val signingProps = Properties().apply {
     val f = rootProject.file("local.properties")
     if (f.exists()) f.inputStream().use { load(it) }
 }
-val hasReleaseSigning = signingProps.getProperty("RELEASE_STORE_FILE") != null
+// local.properties for local builds, environment variables for CI (GitHub secrets).
+fun signingValue(key: String): String? = signingProps.getProperty(key) ?: System.getenv(key)
+val hasReleaseSigning = signingValue("RELEASE_STORE_FILE") != null
 
 android {
     namespace = "com.kingwar.zipbook"
@@ -24,18 +26,18 @@ android {
         applicationId = "com.kingwar.zipbook"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         if (hasReleaseSigning) {
             create("release") {
-                storeFile = file(signingProps.getProperty("RELEASE_STORE_FILE"))
-                storePassword = signingProps.getProperty("RELEASE_STORE_PASSWORD")
-                keyAlias = signingProps.getProperty("RELEASE_KEY_ALIAS")
-                keyPassword = signingProps.getProperty("RELEASE_KEY_PASSWORD")
+                storeFile = file(signingValue("RELEASE_STORE_FILE")!!)
+                storePassword = signingValue("RELEASE_STORE_PASSWORD")
+                keyAlias = signingValue("RELEASE_KEY_ALIAS")
+                keyPassword = signingValue("RELEASE_KEY_PASSWORD")
             }
         }
     }
